@@ -1,11 +1,14 @@
 # LinkedIn UI Automation Test Suite (IT3153 - Assignment 04)
 
+**Student:** Ulindu Chakranga Prabhashwara  
+**Student ID:** D-BIS-24-0004
+
 ## Project Overview
 This project is an automated UI test suite built with Java, Selenium WebDriver, and TestNG to automate core user flows on LinkedIn (Login, Search, and Result Navigation). It uses the Page Object Model (POM) design pattern and Explicit Waits to handle dynamic content, fulfilling the requirements for the IT3153 Software Quality Assurance module.
 
 ## Prerequisites
 To run this project on your local machine, ensure you have the following installed:
-* **Java Development Kit (JDK):** Version 17 or higher
+* **Java Development Kit (JDK):** Version 25 (latest LTS) or higher
 * **Maven:** For dependency management and test execution
 * **Google Chrome:** The automated tests are configured to run on the Chrome browser
 
@@ -17,13 +20,17 @@ The test suite utilizes the Page Object Model (POM) to separate element locators
 ## How to Configure Credentials
 Before running the tests, you must configure a valid LinkedIn test account to comply with LinkedIn's security policies. **Do not use a primary personal account.**
 
-1. Open `src/test/java/com/linkedin/automation/tests/LinkedInAutomatedTests.java`.
-2. Locate the credentials variables at the top of the class:
-   ```java
-   private String testUser = "YOUR_TEST_EMAIL@gmail.com";
-   private String testPass = "YOUR_TEST_PASSWORD";
+1. Configure environment variables in the same terminal used to run Maven:
+   ```powershell
+   $env:LINKEDIN_TEST_USER = "your-dedicated-test-email"
+   $env:LINKEDIN_TEST_PASSWORD = "your-dedicated-test-password"
    ```
-3. Replace the placeholder strings with your dedicated LinkedIn test account email and password.
+2. The tests read these values from `src/test/java/com/linkedin/automation/tests/LinkedInAutomatedTests.java`:
+   ```java
+   private final String testUser = requireCredential("LINKEDIN_TEST_USER");
+   private final String testPass = requireCredential("LINKEDIN_TEST_PASSWORD");
+   ```
+3. Use your own dedicated LinkedIn test account. Never commit real credentials to the repository.
 
 ## How to Run the Tests
 To execute the test suite from the terminal and generate reports, run the following Maven command from the root directory (where the `pom.xml` is located):

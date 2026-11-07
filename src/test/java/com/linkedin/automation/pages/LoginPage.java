@@ -12,10 +12,12 @@ public class LoginPage {
     private WebDriverWait wait;
 
     private By usernameField = By.cssSelector(
-        "input#username, input[name='session_key'], input[autocomplete='username'], input[type='email'], input[type='text']"
+        "input#username, input[name='session_key'], input[autocomplete='username'], " +
+        "input[data-test-id='username'], input[type='email'], input[type='text']"
     );
     private By passwordField = By.cssSelector(
-        "input#password, input[name='session_password'], input[type='password']"
+        "input#password, input[name='session_password'], input[autocomplete='current-password'], " +
+        "input[data-test-id='password'], input[type='password']"
     );
     private By loginButton = By.xpath(
         "//button[@type='submit' or normalize-space()='Sign in']"

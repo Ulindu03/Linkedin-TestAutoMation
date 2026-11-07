@@ -13,9 +13,18 @@ import com.linkedin.automation.pages.LoginPage;
 
 public class LinkedInAutomatedTests extends BaseTest {
 
-    // Enter your dedicated test account credentials here
-    private String testUser = "YOUR_TEST_ACCOUNT_EMAIL";
-    private String testPass = "YOUR_TEST_ACCOUNT_PASSWORD";
+    private final String testUser = requireCredential("LINKEDIN_TEST_USER");
+    private final String testPass = requireCredential("LINKEDIN_TEST_PASSWORD");
+
+    private static String requireCredential(String name) {
+        String value = System.getenv(name);
+        if (value == null || value.isBlank()) {
+            throw new IllegalStateException(
+                "Missing " + name + " environment variable. Configure it before running the tests."
+            );
+        }
+        return value;
+    }
 
     @Test(priority = 1, description = "Task 2: Positive Login Test")
     public void testSuccessfulLogin() {

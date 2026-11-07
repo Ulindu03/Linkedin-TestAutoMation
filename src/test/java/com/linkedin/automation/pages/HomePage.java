@@ -16,7 +16,8 @@ public class HomePage {
 
     // Matches the search input across LinkedIn's classic and updated navigation bars
     private By searchBox = By.cssSelector(
-        "input.search-global-typeahead__input, input[placeholder*='Search'], input[aria-label*='Search'], input[role='combobox']"
+        "input.search-global-typeahead__input, input[placeholder*='Search'], " +
+        "input[aria-label*='Search'], input[role='combobox'], input[data-test-id='search-input']"
     );
     // If the browser window collapses the search bar into a magnifying glass button
     private By searchIconButton = By.cssSelector(
