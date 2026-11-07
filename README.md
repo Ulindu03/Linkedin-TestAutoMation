@@ -33,22 +33,27 @@ Before running the tests, you must configure a valid LinkedIn test account to co
    ```
 2. The tests read these values from `src/test/java/com/linkedin/automation/tests/LinkedInAutomatedTests.java`:
    ```java
-   private final String testUser = requireCredential("LINKEDIN_TEST_USER");
-   private final String testPass = requireCredential("LINKEDIN_TEST_PASSWORD");
+   private String testUser() {
+       return requireCredential("LINKEDIN_TEST_USER", "linkedin.test.user");
+   }
+
+   private String testPass() {
+       return requireCredential("LINKEDIN_TEST_PASSWORD", "linkedin.test.password");
+   }
    ```
 3. Use your own dedicated LinkedIn test account. Never commit real credentials to the repository.
 
 ## How to Run the Tests
-To execute the test suite from the terminal and generate reports, run the following Maven command from the root directory (where the `pom.xml` is located):
-
-```bash
-mvn clean test
-```
-
-If Maven is not installed globally or `mvn` is not recognized, use the project-local Maven Wrapper instead:
+To execute the test suite from the terminal and generate reports, run the project-local Maven Wrapper from the directory containing `pom.xml`:
 
 ```powershell
 .\mvnw.cmd clean test
+```
+
+The wrapper downloads the configured Maven version automatically, so a global Maven installation and PATH configuration are not required. If you prefer a globally installed Maven command, close and reopen VS Code after installing Maven so its terminal inherits the updated PATH:
+
+```powershell
+mvn clean test
 ```
 
 ## Important Note on Bot Detection (Ethics & Rules)
