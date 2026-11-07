@@ -25,6 +25,12 @@ Before running the tests, you must configure a valid LinkedIn test account to co
    $env:LINKEDIN_TEST_USER = "your-dedicated-test-email"
    $env:LINKEDIN_TEST_PASSWORD = "your-dedicated-test-password"
    ```
+   Alternatively, pass credentials as Maven system properties:
+   ```powershell
+   .\mvnw.cmd clean test `
+     "-Dlinkedin.test.user=your-dedicated-test-email" `
+     "-Dlinkedin.test.password=your-dedicated-test-password"
+   ```
 2. The tests read these values from `src/test/java/com/linkedin/automation/tests/LinkedInAutomatedTests.java`:
    ```java
    private final String testUser = requireCredential("LINKEDIN_TEST_USER");

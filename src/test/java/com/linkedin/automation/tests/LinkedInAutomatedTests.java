@@ -1,3 +1,4 @@
+
 package com.linkedin.automation.tests;
 
 import java.time.Duration;
@@ -13,14 +14,23 @@ import com.linkedin.automation.pages.LoginPage;
 
 public class LinkedInAutomatedTests extends BaseTest {
 
-    private final String testUser = requireCredential("LINKEDIN_TEST_USER");
-    private final String testPass = requireCredential("LINKEDIN_TEST_PASSWORD");
+    private String testUser() {
+        return requireCredential("LINKEDIN_TEST_USER", "linkedin.test.user");
+    }
 
-    private static String requireCredential(String name) {
-        String value = System.getenv(name);
+    private String testPass() {
+        return requireCredential("LINKEDIN_TEST_PASSWORD", "linkedin.test.password");
+    }
+
+    private static String requireCredential(String environmentName, String propertyName) {
+        String value = System.getenv(environmentName);
+        if (value == null || value.isBlank()) {
+            value = System.getProperty(propertyName);
+        }
         if (value == null || value.isBlank()) {
             throw new IllegalStateException(
-                "Missing " + name + " environment variable. Configure it before running the tests."
+                "Missing LinkedIn credential. Configure " + environmentName +
+                " or pass -D" + propertyName + " before running the tests."
             );
         }
         return value;
@@ -31,7 +41,7 @@ public class LinkedInAutomatedTests extends BaseTest {
         driver.get("https://www.linkedin.com/login");
         LoginPage loginPage = new LoginPage(driver);
 
-        loginPage.login(testUser, testPass);
+        loginPage.login(testUser(), testPass());
 
         // Wait up to 60s for the feed URL and the top navigation bar to visibly load
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -46,7 +56,7 @@ public class LinkedInAutomatedTests extends BaseTest {
         driver.get("https://www.linkedin.com/login");
         LoginPage loginPage = new LoginPage(driver);
 
-        loginPage.login(testUser, "WrongPassword123!");
+        loginPage.login(testUser(), "WrongPassword123!");
 
         String errorMsg = loginPage.getErrorMessage();
         System.out.println("Captured Error Message: " + errorMsg);
@@ -60,7 +70,7 @@ public class LinkedInAutomatedTests extends BaseTest {
         HomePage homePage = new HomePage(driver);
 
         // 1. Log in and wait for feed
-        loginPage.login(testUser, testPass);
+        loginPage.login(testUser(), testPass());
         WebDriverWait loginWait = new WebDriverWait(driver, Duration.ofSeconds(60));
         loginWait.until(ExpectedConditions.urlContains("feed"));
 
@@ -81,7 +91,7 @@ public class LinkedInAutomatedTests extends BaseTest {
         HomePage homePage = new HomePage(driver);
 
         // 1. Log in and perform search
-        loginPage.login(testUser, testPass);
+        loginPage.login(testUser(), testPass());
         WebDriverWait loginWait = new WebDriverWait(driver, Duration.ofSeconds(60));
         loginWait.until(ExpectedConditions.urlContains("feed"));
 
