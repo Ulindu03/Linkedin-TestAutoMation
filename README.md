@@ -39,6 +39,12 @@ To execute the test suite from the terminal and generate reports, run the follow
 mvn clean test
 ```
 
+If Maven is not installed globally or `mvn` is not recognized, use the project-local Maven Wrapper instead:
+
+```powershell
+.\mvnw.cmd clean test
+```
+
 ## Important Note on Bot Detection (Ethics & Rules)
 LinkedIn actively restricts automated access and frequently deploys anti-bot measures. In compliance with the assignment's ethics rules, this script does not attempt to bypass CAPTCHAs programmatically. 
 
